@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+<table border="1" align="center">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>
+            {% for a in abb %}
+            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>
+            {% endfor %}
+        </td>
+        <td>
+            {% for n in name %}
+            <br>{{ n }}
+            {% endfor %}
+        </td>
+        <td>
+            {% for n in name %}
+            <br>{{ n }}
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+<h4 style="text-align:center"><a href="/">Return to Previous Page</a></h4>
+</body>
+</html>
