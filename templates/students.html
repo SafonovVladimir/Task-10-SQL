@@ -8,19 +8,20 @@
 <body>
 <table align="center">
     <tr align="center">
-        <th>Номер</th>
+        <th>№</th>
+        <th>ID студента</th>
         <th>ПІБ студента</th>
         <th>Номер групи</th>
     </tr>
     <tr align="center">
-<!--        <td>-->
-<!--            {% for a in abb %}-->
-<!--            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>-->
-<!--            {% endfor %}-->
-<!--        </td>-->
+        <td>
+            {% for i in number %}
+            <br>{{ i }}.
+            {% endfor %}
+        </td>
         <td>
             {% for i in id %}
-            <br>{{ i }}.
+            <br><a href="{{ url_for('student', student_id=i) }}">{{ i }}</a>
             {% endfor %}
         </td>
         <td>
@@ -30,7 +31,7 @@
         </td>
         <td>
             {% for g in group %}
-            <br>{{ g }}
+            <br><a href="{{ url_for('group', group_id=g) }}">{{ g }}</a>
             {% endfor %}
         </td>
     </tr>

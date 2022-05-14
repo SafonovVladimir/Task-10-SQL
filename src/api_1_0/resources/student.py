@@ -2,8 +2,6 @@ from flask import request
 from flask_restful import abort, Resource, reqparse
 from xml.dom.minidom import parseString
 from dicttoxml import dicttoxml
-from queries.queries import *
-
 
 parser = reqparse.RequestParser()
 parser.add_argument('name')
