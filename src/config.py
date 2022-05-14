@@ -1,6 +1,9 @@
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+from pathlib import Path
+
+# basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = Path(__file__).parent
 
 
 class Config(object):
@@ -8,8 +11,9 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'my-key'
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    DATABASE_URL = 'postgresql://admin:admin@localhost/uni'
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = 'postgresql://admin:admin@localhost/uni'
+    # DATABASE_URL = 'postgresql://admin:admin@localhost/uni'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

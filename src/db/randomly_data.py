@@ -41,6 +41,9 @@ def get_random_subject():
 def get_random_group_id():
     return random.sample(range(1, 11), 10)
 
+def get_random_course_id():
+    return random.sample(range(1, 11), random.randrange(1, 4))
+
 
 def get_random_digit_in_range(amount, count, start, end):
     '''
@@ -115,4 +118,6 @@ def get_random_digit_in_range(amount, count, start, end):
 # print(get_random_digit(200, 10, 10, 30))
 # for _ in range(10):
 #     print(random.choice([0, random.randrange(10, 30)]))
-# print(get_groups())
+# print(get_random_group_id())
+# print(get_random_course_id())
+# print(random.randrange(1, 4))
