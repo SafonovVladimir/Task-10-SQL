@@ -6,17 +6,21 @@
     <title>Students</title>
 </head>
 <body>
-<table border="1" align="center">
-    <tr>
-        <th>ID</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Group</th>
+<table align="center">
+    <tr align="center">
+        <th>Номер</th>
+        <th>ПІБ студента</th>
+        <th>Номер групи</th>
     </tr>
-    <tr>
+    <tr align="center">
+<!--        <td>-->
+<!--            {% for a in abb %}-->
+<!--            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>-->
+<!--            {% endfor %}-->
+<!--        </td>-->
         <td>
-            {% for a in abb %}
-            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>
+            {% for i in id %}
+            <br>{{ i }}.
             {% endfor %}
         </td>
         <td>
@@ -25,13 +29,8 @@
             {% endfor %}
         </td>
         <td>
-            {% for n in name %}
-            <br>{{ n }}
-            {% endfor %}
-        </td>
-        <td>
-            {% for n in name %}
-            <br>{{ n }}
+            {% for g in group %}
+            <br>{{ g }}
             {% endfor %}
         </td>
     </tr>

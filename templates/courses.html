@@ -7,15 +7,20 @@
 </head>
 <body>
 <table border="1" align="center">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
+    <tr align="center">
+        <th>Номер</th>
+        <th>Найменування курсу</th>
+        <th>Опис курсу</th>
     </tr>
-    <tr>
-        <td>
-            {% for a in abb %}
-            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>
+    <tr align="center">
+<!--        <td>-->
+<!--            {% for a in abb %}-->
+<!--            <br><a href="{{ url_for('drivers', driver_id=a) }}">{{ a }}</a>-->
+<!--            {% endfor %}-->
+<!--        </td>-->
+        <td >
+            {% for i in id %}
+            <br>{{ i }}.
             {% endfor %}
         </td>
         <td>
@@ -24,8 +29,8 @@
             {% endfor %}
         </td>
         <td>
-            {% for n in name %}
-            <br>{{ n }}
+            {% for d in description %}
+            <br>{{ d }}
             {% endfor %}
         </td>
     </tr>
