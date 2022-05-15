@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
-from db.models import Course, Group, Student, StudentsCourses
+from db.models import Course, Group, Student
 
 engine = create_engine('postgresql://admin:admin@localhost:5432/uni')
 conn = engine.connect()
@@ -64,6 +64,14 @@ def get_group_inf(group_name):
             students.append((i[0], f'{i[2]} {i[1]}', i[3]))
     return students
 
+def get_student():
+    with session_scope() as s:
+        students = []
+        query = select(Student.id, Student.last_name, Student.first_name).order_by(Student.id.asc())
+        result = s.execute(query)
+        for i in result:
+            students.append((i[0], f'{i[1]} {i[2]}'))
+        return students
 
 def get_student_info(student_id):
     with session_scope() as s:

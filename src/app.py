@@ -2,13 +2,14 @@ from flask import render_template, request
 from api_1_0 import API_VERSION_V1, api_bp
 from config import config, Config
 from src.queries.queries import *
-import src.api_1_0.routes
+
 
 app = Config.app
 app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS
 app.config['REST_URL_PREFIX'] = Config.REST_URL_PREFIX
 conf = app.config['REST_URL_PREFIX']
+ver = API_VERSION_V1
 
 def create_app(config_name):
     app.config.from_object(config[config_name])
@@ -117,7 +118,6 @@ def create_app(config_name):
             count += 1
         return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
 
-    ver = API_VERSION_V1
     app.register_blueprint(api_bp, url_prefix=f'{conf}/v{ver}', )
 
     return app

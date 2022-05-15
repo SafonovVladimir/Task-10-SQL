@@ -1,7 +1,6 @@
 from flask import Blueprint
 import flask_restful
 
-
 API_VERSION_V1 = 1
 
 api_bp = Blueprint('api', __name__)

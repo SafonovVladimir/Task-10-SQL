@@ -3,18 +3,20 @@ from flask_restful import abort, Resource, reqparse
 from xml.dom.minidom import parseString
 from dicttoxml import dicttoxml
 
+from queries.queries import get_student
 from src.api_1_0.resources import get_student_info
 
 parser = reqparse.RequestParser()
-# parser.add_argument('name')
-# parser.add_argument('team')
-# parser.add_argument('lap')
+parser.add_argument('name')
+parser.add_argument('team')
+parser.add_argument('lap')
 
 
 # якщо студента немає у базі
 def abort_if_student_id_doesnt_exist(student_id):
-    if student_id not in get_student_info(student_id):
-        abort(404, message=f"Student with ID-{student_id} doesn't exist")
+    for i in get_student():
+        if student_id not in str(i[0]):
+            abort(404, message=f"Student with ID-{student_id} doesn't exist")
 
 
 class StudentInfo(Resource):
@@ -31,8 +33,8 @@ class StudentInfo(Resource):
         # return '', 204
 
     # def post(self, driver_abb):
-    #     # insert_driver_data(driver_abb, parser.parse_args())
-    #     # return query(), 201
+    #     insert_driver_data(driver_abb, parser.parse_args())
+    #     return query(), 201
 
     def put(self, driver_abb):
         abort_if_student_id_doesnt_exist(driver_abb)

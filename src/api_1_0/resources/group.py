@@ -11,7 +11,7 @@ parser.add_argument('team')
 parser.add_argument('lap')
 
 
-# якщо пілота немає у базі
+# якщо групи немає у базі
 def abort_if_driver_id_doesnt_exist(driver_abb):
     if driver_abb not in query_driver_abb():
         abort(404, message=f"Driver {driver_abb} doesn't exist")
