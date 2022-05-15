@@ -1,4 +1,5 @@
 from app import create_app
+import src.api_1_0.routes
 
 app = create_app(config_name='development')
 

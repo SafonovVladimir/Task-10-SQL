@@ -1,6 +1,8 @@
 from contextlib import contextmanager
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
+
+from db.models import Course, Group, Student, StudentsCourses
 
 engine = create_engine('postgresql://admin:admin@localhost:5432/uni')
 conn = engine.connect()
@@ -24,11 +26,8 @@ def session_scope():
 def get_students_subjects_list():
     with session_scope() as s:
         students_subjects_list = []
-        query = "SELECT first_name, last_name, name AS course " \
-                "FROM students_courses " \
-                "JOIN students ON student_id = students.id " \
-                "JOIN courses ON course_id = courses.id;"
-        result = s.execute(text(query))
+        query = select(Student.first_name, Student.last_name, Course.name)
+        result = s.execute(query)
         for i in result:
             students_subjects_list.append(i)
     return students_subjects_list
@@ -37,8 +36,8 @@ def get_students_subjects_list():
 def get_groups_name():
     with session_scope() as s:
         groups_name = []
-        query = "SELECT * FROM groups ORDER BY id ASC "
-        result = s.execute(text(query))
+        query = select(Group.name).order_by(Group.name.asc())
+        result = s.execute(query)
         for i in result:
             groups_name.append(i)
     return groups_name
@@ -47,40 +46,24 @@ def get_groups_name():
 def get_all_students_with_group_name():
     with session_scope() as s:
         students = []
-        query = "SELECT students.id, first_name, last_name, name " \
-                "FROM students " \
-                "JOIN groups ON students.group_id = groups.id " \
-                "ORDER BY students.last_name ASC"
-        result = s.execute(text(query))
-        for i in result:
-            students.append((i[0], f'{i[2]} {i[1]}', i[3]))
-            # students.append((i))
-    return students
-
-
-# def get_group_students():
-#     with session_scope() as s:
-#         students = []
-#         from src import Course
-#         query = s.query(Course.name, Course.description).order_by(Course.name.asc())
-#         result = s.execute(query)
-#         for i in result:
-#             students.append(i)
-#     return students
-
-
-def get_group_inf(group_id):
-    with session_scope() as s:
-        students = []
-        query = f"SELECT students.id, first_name, last_name, name " \
-                f"FROM students " \
-                f"JOIN groups ON students.group_id = groups.id " \
-                f"WHERE name = '{group_id}' "\
-                f"ORDER BY students.last_name ASC"
+        query = select(Student.id, Student.first_name, Student.last_name, Group.name).\
+            join(Group).order_by(Student.last_name.asc())
         result = s.execute(query)
         for i in result:
             students.append((i[0], f'{i[2]} {i[1]}', i[3]))
     return students
+
+
+def get_group_inf(group_name):
+    with session_scope() as s:
+        students = []
+        query = select(Student.id, Student.first_name, Student.last_name, Group.name).\
+            join(Group).where(Group.name == group_name).order_by(Student.last_name.asc())
+        result = s.execute(query)
+        for i in result:
+            students.append((i[0], f'{i[2]} {i[1]}', i[3]))
+    return students
+
 
 def get_student_info(student_id):
     with session_scope() as s:
@@ -89,22 +72,23 @@ def get_student_info(student_id):
                 f"FROM students_courses " \
                 f"JOIN students ON student_id = students.id " \
                 f"JOIN courses ON course_id = courses.id " \
-                f"WHERE students.id = '{student_id}' "\
+                f"WHERE students.id = '{student_id}' " \
                 f"ORDER BY students.last_name ASC"
         result = s.execute(query)
         for i in result:
             students.append(i)
     return students
 
+
 def get_courses():
     with session_scope() as s:
         courses = []
-        query = "SELECT name, description FROM courses " \
-                "ORDER BY name ASC "
-        result = s.execute(text(query))
+        query = select(Course.name, Course.description).order_by(Course.name.asc())
+        result = s.execute(query)
         for i in result:
             courses.append(i)
     return courses
+
 
 def get_course_info(course_name):
     with session_scope() as s:
@@ -114,22 +98,9 @@ def get_course_info(course_name):
                 f"JOIN students ON student_id = students.id " \
                 f"JOIN courses ON course_id = courses.id " \
                 f"JOIN groups ON group_id = groups.id " \
-                f"WHERE courses.name = '{course_name}' "\
+                f"WHERE courses.name = '{course_name}' " \
                 f"ORDER BY students.last_name ASC"
-
         result = s.execute(query)
         for i in result:
             students.append((i[0], f'{i[2]} {i[1]}', i[3]))
     return students
-
-# def get_course():
-#     with session_scope() as s:
-#         courses = []
-#         query = s.query(Course.name, Course.description).order_by(Course.name.asc())
-#         # result = s.execute(query)
-#         for i in query:
-#             courses.append(i)
-#     return courses
-
-print(get_course_info('Ukrainian'))
-

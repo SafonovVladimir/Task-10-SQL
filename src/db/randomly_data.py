@@ -41,6 +41,7 @@ def get_random_subject():
 def get_random_group_id():
     return random.sample(range(1, 11), 10)
 
+
 def get_random_course_id():
     return random.sample(range(1, 11), random.randrange(1, 4))
 
@@ -78,46 +79,3 @@ def get_random_digit_in_range(amount, count, start, end):
     else:
         raise Exception(f'{result} not in range {start} - {end}')
     return list_digit
-
-
-# count = 1
-# for _ in range(20):
-# random_list = f'{random.choice(first_name)} {random.choice(last_name)}'
-# random_name = ''.join(random.choice(first_name) + ' ' + random.choice(last_name))
-# random_char = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
-# random_group = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-# print(random_name)
-# count += 1
-# random_group = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-
-# for _ in range(10):
-#     random_char = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
-#     random_dig = ''.join(random.choice(string.digits) for _ in range(2))
-#     print(random_char + '-' + random_dig)
-# print((first_name))
-# print(len(last_name))
-# for _ in range(10):
-#     print(get_groups())
-
-# for k, v in courses.items():
-#     print(f'{k} - {v}')
-# for _ in range(10):
-#     print(get_groups())
-# for i in get_random_group_id():
-# print(get_random_group_id())
-# k = 1
-# j = 1
-# for i in (get_random_digit_in_range(200, 10, 10, 30)):
-#     # print(i)
-#     count = 1
-#     print(f'Group №{j} has {i} students:')
-#     while count <= i:
-#         print(f'{get_random_student_first_name()} {get_random_student_last_name()}, group_id: {j}')
-#         count += 1
-#     j += 1
-# print(get_random_digit(200, 10, 10, 30))
-# for _ in range(10):
-#     print(random.choice([0, random.randrange(10, 30)]))
-# print(get_random_group_id())
-# print(get_random_course_id())
-# print(random.randrange(1, 4))

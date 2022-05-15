@@ -17,7 +17,7 @@ def abort_if_driver_id_doesnt_exist(driver_abb):
         abort(404, message=f"Driver {driver_abb} doesn't exist")
 
 
-class GroupName(Resource):
+class GroupInfo(Resource):
 
     # інформація по пілоту
     def get(self, driver_abb):

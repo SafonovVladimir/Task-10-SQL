@@ -6,36 +6,57 @@
     <title>Students</title>
 </head>
 <body>
-<table align="center">
+<table align="center" cellpadding="10">
     <tr align="center">
-        <th>№</th>
-        <th>ID студента</th>
-        <th>ПІБ студента</th>
-        <th>Номер групи</th>
-    </tr>
-    <tr align="center">
-        <td>
-            {% for i in number %}
-            <br>{{ i }}.
-            {% endfor %}
-        </td>
-        <td>
-            {% for i in id %}
-            <br><a href="{{ url_for('student', student_id=i) }}">{{ i }}</a>
-            {% endfor %}
-        </td>
-        <td>
-            {% for n in name %}
-            <br>{{ n }}
-            {% endfor %}
-        </td>
-        <td>
-            {% for g in group %}
-            <br><a href="{{ url_for('group', group_id=g) }}">{{ g }}</a>
-            {% endfor %}
-        </td>
+        <th width="5%">№</th>
+        <th width="15%">ID студента</th>
+        <th width="35%">ПІБ студента</th>
+        <th width="25%">Номер групи</th>
     </tr>
 </table>
-<h4 style="text-align:center"><a href="/">Return to Previous Page</a></h4>
+
+<div id="table-wrapper">
+    <div id="table-scroll">
+        <table align="center" cellpadding="10">
+            <tbody>
+            <tr align="center">
+                <td>
+                    {% for i in number %}
+                    <br>{{ i }}.
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for i in id %}
+                    <br><a href="{{ url_for('student', student_id=i) }}">{{ i }}</a>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for n in name %}
+                    <br>{{ n }}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for g in group %}
+                    <br><a href="{{ url_for('group', group_id=g) }}">{{ g }}</a>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for n in name %}
+                    <br><a href="{{ url_for('edit_student') }}" style="text-decoration: none">
+                        <img src="{{ url_for('static',filename='edit.png') }}" height="11px"
+                         width="11px" alt="sites logo">
+                        </a>
+                        <a href="{{ url_for('delete_student') }}" style="text-decoration: none">
+                        <img src="{{ url_for('static',filename='delete.png') }}" height="11px"
+                             width="11px" alt="sites logo">
+                        </a>
+                    {% endfor %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<h4 style="text-align:center"><a href="/">Return to Main Page</a></h4>
 </body>
 </html>

@@ -2,7 +2,6 @@ from flask import request
 from flask_restful import abort, Resource, reqparse
 from xml.dom.minidom import parseString
 from dicttoxml import dicttoxml
-# from queries.queries import *
 
 
 parser = reqparse.RequestParser()
@@ -17,7 +16,7 @@ def abort_if_driver_id_doesnt_exist(driver_abb):
         abort(404, message=f"Driver {driver_abb} doesn't exist")
 
 
-class CourseName(Resource):
+class CourseInfo(Resource):
 
     # інформація по пілоту
     def get(self, driver_abb):
