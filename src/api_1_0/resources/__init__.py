@@ -1,1 +1,1 @@
-from queries.queries import *
+from queries.queries_config import *

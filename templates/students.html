@@ -41,22 +41,26 @@
                     {% endfor %}
                 </td>
                 <td>
-                    {% for n in name %}
-                    <br><a href="{{ url_for('edit_student') }}" style="text-decoration: none">
-                        <img src="{{ url_for('static',filename='edit.png') }}" height="11px"
-                         width="11px" alt="sites logo">
-                        </a>
-                        <a href="{{ url_for('delete_student') }}" style="text-decoration: none">
-                        <img src="{{ url_for('static',filename='delete.png') }}" height="11px"
-                             width="11px" alt="sites logo">
-                        </a>
-                    {% endfor %}
+<!--                    {% for i in id %}-->
+<!--                    <br><a href="{{ url_for('edit_student', student_id=i) }}" style="text-decoration: none">-->
+<!--                        <img src="{{ url_for('static',filename='edit.png') }}" height="11px"-->
+<!--                         width="11px" alt="sites logo">-->
+<!--                        </a>-->
+<!--                        <a href="{{ url_for('delete_student') }}" style="text-decoration: none">-->
+<!--                        <img src="{{ url_for('static',filename='delete.png') }}" height="11px"-->
+<!--                             width="11px" alt="sites logo">-->
+<!--                        </a>-->
+<!--                    {% endfor %}-->
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<h4 style="text-align:center"><a href="/">Return to Main Page</a></h4>
+<h4 style="text-align:center">
+    <a href="#" onclick="history.go(-1)"><<<</a>&nbsp;&nbsp;
+    <a href="/">Return to Main Page</a>&nbsp;&nbsp;
+    <a href="#" onclick="history.go(+1)">>>></a>
+</h4>
 </body>
 </html>

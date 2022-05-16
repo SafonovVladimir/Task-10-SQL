@@ -5,8 +5,11 @@
     <title>Edit student</title>
 </head>
 <body>
-<h1>
-    EDIT STUDENT
-</h1>
+<h2 style="text-align:center">STUDENTS INFO</h2>
+<form action="/submit" method="GET" style="text-align:center">
+    <label for="f_name">Student's name: {{ name }}</label><br><br>
+    <label for="f_id">Student's ID: {{ id }}</label><br><br>
+    <label for="f_group">Group: {{ group }}</label><br>
+</form>
 </body>
 </html>

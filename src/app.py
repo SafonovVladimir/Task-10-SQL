@@ -1,8 +1,10 @@
 from flask import render_template, request
-from api_1_0 import API_VERSION_V1, api_bp
+from api_1_0 import API_VERSION_V1
+from api_1_0.resources.student import api_bp
 from config import config, Config
-from src.queries.queries import *
-
+from queries.queries_courses import get_course_info, get_courses
+from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count
+from queries.queries_students import get_student_info, get_all_students_with_group_name
 
 app = Config.app
 app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
@@ -11,8 +13,10 @@ app.config['REST_URL_PREFIX'] = Config.REST_URL_PREFIX
 conf = app.config['REST_URL_PREFIX']
 ver = API_VERSION_V1
 
+
 def create_app(config_name):
     app.config.from_object(config[config_name])
+    app.register_blueprint(api_bp, url_prefix=f'{conf}/v{ver}')
 
     @app.route('/')
     def index():
@@ -22,7 +26,11 @@ def create_app(config_name):
     def groups():
         num = []
         group_name = []
-        res = get_groups_name()
+        rev = request.args.get('student_count')
+        if rev:
+            res = get_groups_with_student_count(rev)
+        else:
+            res = get_groups_name()
         count = 1
         for i in res:
             num.append(count)
@@ -79,13 +87,21 @@ def create_app(config_name):
             count += 1
         return render_template('courses.html', id=num, name=subject, description=description)
 
-    @app.route('/edit_student')
+    @app.route('/edit_student', methods=['GET', 'POST'])
     def edit_student():
         return render_template('edit_student.html')
 
-    @app.route('/delete_student')
+    @app.route('/delete_student', methods=['GET', 'POST'])
     def delete_student():
         return render_template('edit_student.html')
+
+    @app.route('/success')
+    def success():
+        return render_template('success.html')
+
+    @app.route('/queries', methods=['GET', 'POST'])
+    def queries():
+        return render_template('queries.html')
 
     @app.route('/courses')
     def courses():
@@ -118,6 +134,21 @@ def create_app(config_name):
             count += 1
         return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
 
-    app.register_blueprint(api_bp, url_prefix=f'{conf}/v{ver}', )
+    @app.route('/submit')
+    def submit():
+        num = []
+        student_id = []
+        group_name = []
+        student = []
+        rev = request.args.get('course')
+        res = get_course_info(rev)
+        count = 1
+        for i in res:
+            num.append(count)
+            student_id.append(i[0])
+            group_name.append(i[2])
+            student.append(i[1])
+            count += 1
+        return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
 
     return app
