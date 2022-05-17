@@ -101,3 +101,4 @@ def update_student(student_id, first_name, last_name, group):
         s.execute(query1)
         s.execute(query2)
         s.execute(query3)
+
