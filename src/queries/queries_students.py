@@ -86,19 +86,19 @@ def add_course_to_student(student_id, course_name):
         s.add(student)
         s.commit()
 
+
 def update_student(student_id, first_name, last_name, group):
     with session_scope() as s:
         group_id = get_group_id_by_name(group)
         query1 = f"UPDATE students SET " \
-            f"first_name = '{first_name}' " \
-            f"WHERE students.id = '{student_id}' "
+                 f"first_name = '{first_name}' " \
+                 f"WHERE students.id = '{student_id}' "
         query2 = f"UPDATE students SET " \
-             f"last_name = '{last_name}' " \
-             f"WHERE students.id = '{student_id}' "
+                 f"last_name = '{last_name}' " \
+                 f"WHERE students.id = '{student_id}' "
         query3 = f"UPDATE students SET " \
-             f"group_id = '{group_id}' " \
-             f"WHERE students.id = '{student_id}' "
+                 f"group_id = '{group_id}' " \
+                 f"WHERE students.id = '{student_id}' "
         s.execute(query1)
         s.execute(query2)
         s.execute(query3)
-

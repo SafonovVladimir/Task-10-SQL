@@ -1,56 +1,42 @@
-from flask import request
 from flask_restful import abort, Resource, reqparse
-from xml.dom.minidom import parseString
-from dicttoxml import dicttoxml
-# from queries.queries import *
-
+from db.models import db, Group
+from queries.queries_groups import get_group_id_list, get_group, get_groups_name, del_group_by_id, update_group
 
 parser = reqparse.RequestParser()
-parser.add_argument('name')
-parser.add_argument('team')
-parser.add_argument('lap')
+parser.add_argument("name")
 
 
 # якщо групи немає у базі
-def abort_if_driver_id_doesnt_exist(driver_abb):
-    if driver_abb not in query_driver_abb():
-        abort(404, message=f"Driver {driver_abb} doesn't exist")
+def abort_if_group_id_doesnt_exist(group_id):
+    if group_id not in get_group_id_list():
+        abort(404, message=f"Group with ID-{group_id} not found")
 
 
-class GroupInfo(Resource):
+class Groups(Resource):
 
-    # інформація по пілоту
-    def get(self, driver_abb):
-        abort_if_driver_id_doesnt_exist(driver_abb)
-        data = {driver_abb: {'name': name, 'team': team, 'lap': lap}}
-        return data
+    def get(self, group_id):
+        abort_if_group_id_doesnt_exist(group_id)
+        data = get_group(group_id)
+        output = {'name': data}
+        return output, 200
 
-    # видалення пілота
-    def delete(self, driver_abb):
-        abort_if_driver_id_doesnt_exist(driver_abb)
-        query_driver_delete(driver_abb)
+    def post(self):
+        params = parser.parse_args()
+        name = params["name"]
+        if name in get_groups_name():
+            return f"Group with {name} already exists", 400
+        group = Group(name)
+        db.session.add(group)
+        db.session.commit()
         return '', 204
 
-    # додавання пілота
-    def post(self, driver_abb):
-        insert_driver_data(driver_abb, parser.parse_args())
-        return query(), 201
+    def delete(self, group_id):
+        abort_if_group_id_doesnt_exist(group_id)
+        del_group_by_id(group_id)
+        return '', 204
 
-    # зміна даних пілота
-    def put(self, driver_abb):
-        abort_if_driver_id_doesnt_exist(driver_abb)
-        update_driver_data(driver_abb, parser.parse_args())
-        # return query(), 201
-
-
-class GroupsList(Resource):
-    # отримання звіту по всім пілотам
-    def get(self):
-        # f = request.args.get('format')
-        # if f == 'json':
-        #     return query()
-        # elif f == 'xml':
-        #     xml = dicttoxml(query(), attr_type=False)
-        #     return parseString(xml).toprettyxml()
-        groups = que
-        return
+    def put(self, group_id):
+        abort_if_group_id_doesnt_exist(group_id)
+        params = parser.parse_args()
+        update_group(group_id, params["name"])
+        return '', 204

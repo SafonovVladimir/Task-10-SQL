@@ -4,12 +4,12 @@ html {
     padding: 1rem;
 }
 
-body {
-    max-width: 1900px;
-    max-height: 3800px;
-    margin: 0 auto;
-    background: white;
-}
+/*body {*/
+/*    max-width: 1900px;*/
+/*    max-height: 3800px;*/
+/*    margin: 0 auto;*/
+/*    background: white;*/
+/*}*/
 
 h1 {
     font-family: serif;
