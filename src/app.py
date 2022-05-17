@@ -1,12 +1,12 @@
 from flask import render_template, request
 from api_1_0 import API_VERSION_V1
-from api_1_0.resources.student import api_bp
+from api_1_0.resources.student import api_bp, post, delete
 from config import config, Config
 from db.models import StudentsCourses
 from queries.queries_courses import get_course_info, get_courses, get_course_id_by_name
-from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count
-from queries.queries_students import get_student_info, get_all_students_with_group_name, add_course_to_student, \
-    del_course_from_student
+from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count, get_group_id_by_name
+from queries.queries_students import get_student_courses, get_all_students_with_group_name, add_course_to_student, \
+    del_course_from_student, del_student_by_id
 
 app = Config.app
 app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
@@ -80,7 +80,7 @@ def create_app(config_name):
         subject = []
         description = []
         rev = request.args.get('student_id')
-        res = get_student_info(rev)
+        res = get_student_courses(rev)
         count = 1
         for i in res:
             num.append(count)
@@ -103,13 +103,21 @@ def create_app(config_name):
         del_course_from_student(student_id, course_name)
         return render_template('success/del_success.html')
 
-    @app.route('/add_student', methods=['GET'])
-    def delete_student():
-        return render_template('student/add_student.html')
+    @app.route('/add_student', methods=['POST'])
+    def add_student():
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        student_group = request.form['student_group']
+        group_id = get_group_id_by_name(student_group)
+        output = {'first_name': first_name, 'last_name': last_name, 'group': group_id}
+        post(output)
+        return render_template('success/add_success.html')
 
-    @app.route('/edit_course', methods=['GET'])
-    def edit_course():
-        return render_template('course/edit_course.html')
+    @app.route('/del_student', methods=['POST'])
+    def del_student():
+        student_id = request.form['stud_id']
+        delete(student_id)
+        return render_template('success/del_success.html', id=student_id)
 
     @app.route('/success')
     def success():

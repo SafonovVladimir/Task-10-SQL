@@ -3,6 +3,7 @@ from queries.queries_config import session_scope
 from sqlalchemy import select, delete
 
 from queries.queries_courses import get_course_id_by_name
+from queries.queries_groups import get_group_id_by_name
 
 
 def get_students_subjects_list():
@@ -37,7 +38,7 @@ def get_student(student_id):
         return students
 
 
-def get_student_info(student_id):
+def get_student_courses(student_id):
     with session_scope() as s:
         students = []
         query = f"SELECT name AS course, description " \
@@ -52,7 +53,7 @@ def get_student_info(student_id):
     return students
 
 
-def get_student_id():
+def get_student_id_list():
     with session_scope() as s:
         students_id = []
         query = select(Student.id)
@@ -74,8 +75,9 @@ def del_course_from_student(student_id, course_name):
     with session_scope() as s:
         course_id = get_course_id_by_name(course_name)
         query = f"DELETE FROM students_courses " \
-            f"WHERE student_id = '{student_id}' AND course_id = '{course_id}' "
+                f"WHERE student_id = '{student_id}' AND course_id = '{course_id}' "
         s.execute(query)
+
 
 def add_course_to_student(student_id, course_name):
     with session_scope() as s:
@@ -83,3 +85,19 @@ def add_course_to_student(student_id, course_name):
         student = StudentsCourses(student_id, course_id)
         s.add(student)
         s.commit()
+
+def update_student(student_id, first_name, last_name, group):
+    with session_scope() as s:
+        group_id = get_group_id_by_name(group)
+        query1 = f"UPDATE students SET " \
+            f"first_name = '{first_name}' " \
+            f"WHERE students.id = '{student_id}' "
+        query2 = f"UPDATE students SET " \
+             f"last_name = '{last_name}' " \
+             f"WHERE students.id = '{student_id}' "
+        query3 = f"UPDATE students SET " \
+             f"group_id = '{group_id}' " \
+             f"WHERE students.id = '{student_id}' "
+        s.execute(query1)
+        s.execute(query2)
+        s.execute(query3)

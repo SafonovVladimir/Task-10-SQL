@@ -6,11 +6,6 @@
 </head>
 <body>
 <h2 style="text-align:center">QUERIES</h2>
-<form action="/api/v1/student/" method="POST" style="text-align:center">
-    <label for="student_id">Get information about student. Enter student ID:&nbsp;</label>
-    <input type="tel" id="student_id" name="student_id" size="2">
-    <button onclick="myFunction()">Get</button><br><br><br>
-</form>
 <form action="/groups" method="GET" style="text-align:center">
     <label for="student_count">Find all groups with less or equals student count:</label>
     <input type="tel" id="student_count" name="student_count" size="2">
@@ -32,11 +27,28 @@
     </select>
     <button onclick="myFunction()">Get</button><br><br><br>
 </form>
-<form action="/add_student" method="GET" style="text-align:center">
-    <label>Add new student</label>
-    <button>Add</button><br><br><br>
+<form action="/add_student" method="POST" style="text-align:center">
+    <h4 style="text-align:center">Add new student</h4>
+    <label for="first_name">First name: </label>&nbsp;
+    <input type="tel" id="first_name" name="first_name">&emsp;
+    <label for="last_name">Last name: </label>&nbsp;
+    <input type="tel" id="last_name" name="last_name">&emsp;
+    <label for="student_group">Group: </label>&emsp;
+    <select id="student_group" name="student_group">
+        <option value="BU-99">BU-99</option>
+        <option value="CA-76">CA-76</option>
+        <option value="ER-19">ER-19</option>
+        <option value="JL-92">JL-92</option>
+        <option value="LT-35">LT-35</option>
+        <option value="PI-66">PI-66</option>
+        <option value="UU-11">UU-11</option>
+        <option value="YC-16">YC-16</option>
+        <option value="YC-46">YC-46</option>
+        <option value="YY-54">YY-54</option>
+    </select>&emsp;
+    <button onclick="add_student()">Add student</button><br><br><br><br>
 </form>
-<form action="/api/v1/del_student/" method="POST" style="text-align:center">
+<form action="/del_student" method="POST" style="text-align:center">
     <label for="stud_id">Delete student by STUDENT_ID: </label>
     <input type="tel" id="stud_id" name="stud_id" size="2">
     <button>DEL</button><br><br><br>
