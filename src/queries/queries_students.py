@@ -1,6 +1,8 @@
-from db.models import Student, Course, Group
+from db.models import Student, Course, Group, StudentsCourses, db
 from queries.queries_config import session_scope
-from sqlalchemy import select
+from sqlalchemy import select, delete
+
+from queries.queries_courses import get_course_id_by_name
 
 
 def get_students_subjects_list():
@@ -58,3 +60,26 @@ def get_student_id():
         for i in result:
             students_id.append(i[0])
     return students_id
+
+
+def del_student_by_id(student_id):
+    with session_scope() as s:
+        query = delete(StudentsCourses).where(StudentsCourses.student_id == student_id)
+        s.execute(query)
+        query = delete(Student).where(Student.id == student_id)
+        s.execute(query)
+
+
+def del_course_from_student(student_id, course_name):
+    with session_scope() as s:
+        course_id = get_course_id_by_name(course_name)
+        query = f"DELETE FROM students_courses " \
+            f"WHERE student_id = '{student_id}' AND course_id = '{course_id}' "
+        s.execute(query)
+
+def add_course_to_student(student_id, course_name):
+    with session_scope() as s:
+        course_id = get_course_id_by_name(course_name)
+        student = StudentsCourses(student_id, course_id)
+        s.add(student)
+        s.commit()

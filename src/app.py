@@ -2,9 +2,11 @@ from flask import render_template, request
 from api_1_0 import API_VERSION_V1
 from api_1_0.resources.student import api_bp
 from config import config, Config
-from queries.queries_courses import get_course_info, get_courses
+from db.models import StudentsCourses
+from queries.queries_courses import get_course_info, get_courses, get_course_id_by_name
 from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count
-from queries.queries_students import get_student_info, get_all_students_with_group_name
+from queries.queries_students import get_student_info, get_all_students_with_group_name, add_course_to_student, \
+    del_course_from_student
 
 app = Config.app
 app.config['SQLALCHEMY_DATABASE_URI'] = Config.SQLALCHEMY_DATABASE_URI
@@ -36,7 +38,7 @@ def create_app(config_name):
             num.append(count)
             group_name.append(i[0])
             count += 1
-        return render_template('groups.html', id=num, name=group_name)
+        return render_template('groups/groups.html', id=num, name=group_name)
 
     @app.route('/group')
     def group():
@@ -54,7 +56,7 @@ def create_app(config_name):
             student_name = i[1]
             student.append(student_name)
             count += 1
-        return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
+        return render_template('student/students.html', number=num, id=student_id, name=student, group=group_name)
 
     @app.route('/students')
     def students():
@@ -70,7 +72,7 @@ def create_app(config_name):
             group_name.append(i[2])
             student.append(i[1])
             count += 1
-        return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
+        return render_template('student/students.html', number=num, id=student_id, name=student, group=group_name)
 
     @app.route('/student')
     def student():
@@ -85,21 +87,35 @@ def create_app(config_name):
             description.append(i[1])
             subject.append(i[0])
             count += 1
-        return render_template('courses.html', id=num, name=subject, description=description)
+        return render_template('course/courses.html', id=num, name=subject, description=description)
 
-    @app.route('/edit_student', methods=['GET', 'POST'])
-    def edit_student():
-        return render_template('edit_student.html')
+    @app.route('/add_course', methods=['POST'])
+    def add_course():
+        student_id = request.form['s_id']
+        course_name = request.form['courses']
+        add_course_to_student(student_id, course_name)
+        return render_template('success/add_success.html')
 
-    @app.route('/delete_student', methods=['GET', 'POST'])
+    @app.route('/del_course', methods=['POST'])
+    def del_course():
+        student_id = request.form['s_id_del']
+        course_name = request.form['course_del']
+        del_course_from_student(student_id, course_name)
+        return render_template('success/del_success.html')
+
+    @app.route('/add_student', methods=['GET'])
     def delete_student():
-        return render_template('edit_student.html')
+        return render_template('student/add_student.html')
+
+    @app.route('/edit_course', methods=['GET'])
+    def edit_course():
+        return render_template('course/edit_course.html')
 
     @app.route('/success')
     def success():
-        return render_template('success.html')
+        return render_template('success/add_success.html')
 
-    @app.route('/queries', methods=['GET', 'POST'])
+    @app.route('/queries', methods=['GET'])
     def queries():
         return render_template('queries.html')
 
@@ -115,7 +131,7 @@ def create_app(config_name):
             course_name.append(i[0])
             description.append(i[1])
             count += 1
-        return render_template('courses.html', id=num, name=course_name, description=description)
+        return render_template('course/courses.html', id=num, name=course_name, description=description)
 
     @app.route('/course')
     def course():
@@ -132,7 +148,7 @@ def create_app(config_name):
             group_name.append(i[2])
             student.append(i[1])
             count += 1
-        return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
+        return render_template('student/students.html', number=num, id=student_id, name=student, group=group_name)
 
     @app.route('/submit')
     def submit():
@@ -149,6 +165,6 @@ def create_app(config_name):
             group_name.append(i[2])
             student.append(i[1])
             count += 1
-        return render_template('students.html', number=num, id=student_id, name=student, group=group_name)
+        return render_template('student/students.html', number=num, id=student_id, name=student, group=group_name)
 
     return app

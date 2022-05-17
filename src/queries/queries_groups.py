@@ -38,4 +38,13 @@ def get_groups_with_student_count(students_count):
             groups_name.append(i)
     return groups_name
 
-print(get_groups_with_student_count(20))
+
+def get_group_id_by_name(group_name):
+    with session_scope() as s:
+        try:
+            query = select(Group.id).where(Group.name == group_name).order_by(Group.name.asc())
+            result = s.execute(query)
+        except TypeError as e:
+            raise TypeError(f'Group {group_name} do not find in Group"s list!', e)
+        for i in result:
+            return i[0]

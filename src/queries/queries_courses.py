@@ -29,3 +29,12 @@ def get_course_info(course_name):
     return students
 
 
+def get_course_id_by_name(course_name):
+    with session_scope() as s:
+        try:
+            query = select(Course.id).where(Course.name == course_name).order_by(Course.name.asc())
+            result = s.execute(query)
+        except TypeError as e:
+            raise TypeError(f'Group {course_name} do not find in Group"s list!', e)
+        for i in result:
+            return i[0]

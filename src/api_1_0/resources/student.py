@@ -1,8 +1,11 @@
 import flask_restful
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, render_template, request
 from flask_restful import abort, Resource
 
-from queries.queries_students import get_student_id, get_student
+from db.models import Student, db, StudentsCourses
+from queries.queries_courses import get_course_id_by_name
+from queries.queries_groups import get_group_id_by_name
+from queries.queries_students import get_student, del_student_by_id, del_course_from_student
 
 API_VERSION_V1 = 1
 
@@ -11,52 +14,63 @@ api_v1 = flask_restful.Api(api_bp)
 
 
 # якщо студента немає у базі
-def abort_if_student_id_doesnt_exist(student_id):
-    if student_id not in get_student_id():
-        abort(404, message=f"Student with ID-{student_id} doesn't exist")
+# def abort_if_student_id_doesnt_exist(student_id):
+#     if student_id not in get_student_id():
+#         abort(404, message=f"Student with ID-{student_id} doesn't exist")
 
 
-@api_bp.route('/student/<student_id>', methods=['GET'])
-def get(student_id):
-    data = get_student(student_id)
-    s_id = data[0][0]
-    s_name = data[0][1]
-    group = data[0][2]
-    return render_template('edit_student.html', id=s_id, name=s_name, group=group)
+@api_bp.route('/student/', methods=['GET', 'POST'])
+def get():
+    stud_id = request.form['student_id']
+    data = get_student(stud_id)
+    return render_template('student/students.html', number=[1], id=[data[0][0]], name=[data[0][1]], group=[data[0][2]])
 
 
-@api_bp.route('/student/<student_id>', methods=['POST'])
-def post(student_id):
-    numbers = []
-    students_id = []
-    students_name = []
-    groups = []
-    data = get_student(student_id)
-    numbers.append(1)
-    students_id.append(data[0][0])
-    students_name.append(data[0][1])
-    groups.append(data[0][2])
-    return render_template('students.html', number=numbers, id=students_id, name=students_name, group=groups)
+@api_bp.route('/add_student/', methods=['POST'])
+def post():
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    student_group = request.form['student_group']
+    group_id = get_group_id_by_name(student_group)
+
+    student = Student(first_name, last_name, group_id)
+    db.session.add(student)
+    db.session.commit()
+    return render_template('success/add_success.html')
 
 
-class StudentInfo(Resource):
+@api_bp.route('/del_student/', methods=['POST'])
+def delete():
+    student_id = request.form['stud_id']
+    del_student_by_id(student_id)
+    return render_template('success/del_success.html', id=student_id)
 
-    # Get student's info
-    def get(self, student_id):
-        abort_if_student_id_doesnt_exist(student_id)
-        data = get_student(student_id)
-        return data
 
-    def delete(self, driver_abb):
-        abort_if_student_id_doesnt_exist(driver_abb)
-        # query_driver_delete(driver_abb)
-        # return '', 204
+@api_bp.route('/change_student/', methods=['POST'])
+def put():
+    student_id = request.form['student_id']
+    course_name = request.form['course']
+    course_id = get_course_id_by_name(course_name)
+    student = StudentsCourses(student_id, course_id)
+    db.session.add(student)
+    db.session.commit()
+    # elif btn2:
+    #     del_course_from_student(student_id, course_id)
+    #     db.session.commit()
+    return render_template('success/add_success.html')
 
-    # def post(self, driver_abb):
-    #     insert_driver_data(driver_abb, parser.parse_args())
-    #     return query(), 201
-
-    def put(self, driver_abb):
-        abort_if_student_id_doesnt_exist(driver_abb)
-        # update_driver_data(driver_abb, parser.parse_args())
-        # return query(), 201
+# @api_bp.route('/change_student/', methods=['POST'])
+# def put():
+#     btn1 = request.form['btn1']
+#     btn2 = request.form['btn2']
+#     student_id = request.form['student_id']
+#     course_name = request.form['course']
+#     course_id = get_course_id_by_name(course_name)
+#     if btn1:
+#         student = StudentsCourses(student_id, course_id)
+#         db.session.add(student)
+#         db.session.commit()
+#     elif btn2:
+#         del_course_from_student(student_id, course_id)
+#         db.session.commit()
+#     return render_template('success/add_success.html')
