@@ -4,10 +4,10 @@ from api_1_0.resources.course import Courses
 from api_1_0.resources.group import Groups
 from api_1_0.resources.student import Students
 from config import config, Config
-from db.models import Student
+from db.models import db, Student
 from queries.queries_courses import get_course_info, get_courses, get_courses_name
-from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count, get_group_id_by_name, \
-    get_group_name_list
+from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count, \
+    get_group_name_list, get_group_id_by_name
 from queries.queries_students import get_student_courses, get_all_students_with_group_name, add_course_to_student, \
     del_course_from_student
 
@@ -114,10 +114,10 @@ def create_app(config_name):
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         student_group = request.form['student_group']
-        resource_class_kwargs = {"first_name": first_name, "last_name": last_name, "group": student_group}
-        new_student = Students()
-        # new_student = resource_class_kwargs
-        new_student.post()
+        group_id = get_group_id_by_name(student_group)
+        new_student = Student(first_name, last_name, group_id)
+        db.session.add(new_student)
+        db.session.commit()
         return render_template('success/add_success.html')
 
     @app.route('/del_student', methods=['POST'])
@@ -126,10 +126,6 @@ def create_app(config_name):
         new_student = Students()
         new_student.delete(student_id)
         return render_template('success/del_success.html', id=student_id)
-
-    @app.route('/success')
-    def success():
-        return render_template('success/add_success.html')
 
     @app.route('/queries', methods=['GET'])
     def queries():

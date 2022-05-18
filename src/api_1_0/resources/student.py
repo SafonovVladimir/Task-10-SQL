@@ -1,3 +1,4 @@
+from flask import request
 from flask_restful import abort, Resource, reqparse
 from db.models import Student, db
 from queries.queries_groups import get_group_id_by_name
