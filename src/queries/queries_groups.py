@@ -12,6 +12,7 @@ def get_group(group_id):
             groups_name = i[0]
     return groups_name
 
+
 def get_groups_name():
     with session_scope() as s:
         groups_name = []
@@ -21,6 +22,7 @@ def get_groups_name():
             groups_name.append(i[0])
     return groups_name
 
+
 def get_group_id_list():
     with session_scope() as s:
         groups_id = []
@@ -29,6 +31,15 @@ def get_group_id_list():
         for i in result:
             groups_id.append(i[0])
         return groups_id
+
+def get_group_name_list():
+    with session_scope() as s:
+        groups_name = []
+        query = select(Group.name).order_by(Group.name.asc())
+        result = s.execute(query)
+        for i in result:
+            groups_name.append(i[0])
+        return groups_name
 
 def get_group_inf(group_name):
     with session_scope() as s:
@@ -52,7 +63,7 @@ def get_groups_with_student_count(students_count):
                 f"ORDER BY groups.id"
         result = s.execute(query)
         for i in result:
-            groups_name.append(i)
+            groups_name.append(i[0])
     return groups_name
 
 
@@ -66,6 +77,7 @@ def get_group_id_by_name(group_name):
         for i in result:
             return i[0]
 
+
 def del_group_by_id(group_id):
     with session_scope() as s:
         query = delete(Group).where(Group.id == group_id)
@@ -75,6 +87,6 @@ def del_group_by_id(group_id):
 def update_group(group_id, name):
     with session_scope() as s:
         query1 = f"UPDATE groups SET " \
-            f"name = '{name}' " \
-            f"WHERE groups.id = '{group_id}' "
+                 f"name = '{name}' " \
+                 f"WHERE groups.id = '{group_id}' "
         s.execute(query1)

@@ -1,4 +1,4 @@
-from db.models import Student, Course, Group, StudentsCourses, db
+from db.models import Student, Course, Group, StudentsCourses
 from queries.queries_config import session_scope
 from sqlalchemy import select, delete
 

@@ -86,6 +86,3 @@ def update_course(course_id, name, desc):
                  f"WHERE courses.id = '{course_id}' "
         s.execute(query1)
         s.execute(query2)
-
-
-print(get_courses_name())
