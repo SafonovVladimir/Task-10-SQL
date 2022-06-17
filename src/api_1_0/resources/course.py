@@ -1,6 +1,7 @@
 from flask_restful import abort, Resource, reqparse
 from db.models import db, Course
-from queries.queries_courses import get_course_id_list, get_course, get_courses_name, del_course_by_id, update_course
+from queries.queries_courses import get_course_id_list, get_course, get_courses_name, del_course_by_id, update_course, \
+    get_courses
 
 parser = reqparse.RequestParser()
 parser.add_argument("name")
@@ -42,3 +43,15 @@ class Courses(Resource):
         params = parser.parse_args()
         update_course(course_id, params["name"], params["description"])
         return '', 204
+
+
+class CoursesList(Resource):
+
+    def get(self):
+        output = {}
+        data = get_courses()
+        count = 1
+        for i in data:
+            output[count] = {'name': i[0], 'description': i[1]}
+            count += 1
+        return output, 200

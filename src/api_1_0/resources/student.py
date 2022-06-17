@@ -1,8 +1,8 @@
-from flask import request
 from flask_restful import abort, Resource, reqparse
 from db.models import Student, db
 from queries.queries_groups import get_group_id_by_name
-from queries.queries_students import get_student, del_student_by_id, update_student, get_student_id_list
+from queries.queries_students import get_student, del_student_by_id, update_student, get_student_id_list, \
+    get_all_students_with_group_name
 
 parser = reqparse.RequestParser()
 parser.add_argument("first_name")
@@ -42,3 +42,15 @@ class Students(Resource):
         params = parser.parse_args()
         update_student(student_id, params["first_name"], params["last_name"], params["group"])
         return '', 204
+
+
+class StudentsList(Resource):
+
+    def get(self):
+        output = {}
+        data = get_all_students_with_group_name()
+        count = 1
+        for i in data:
+            output[count] = {'id': i[0], 'student name': i[1], 'group': i[2]}
+            count += 1
+        return output, 200

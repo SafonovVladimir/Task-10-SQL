@@ -10,7 +10,7 @@ class TestCollection(TestCase):
         """Test get_groups_name"""
         groups = get_groups_name()
         for group in islice(groups, 1, 2):
-            self.assertEqual(group[0], 'CA-76')
+            self.assertEqual(group, 'FN-55')
 
     def test_get_group_inf(self):
         """Test get_group_inf"""
@@ -22,11 +22,11 @@ class TestCollection(TestCase):
         """Test get_groups_with_student_count"""
         groups = get_groups_with_student_count(20)
         for group in islice(groups, 1, 2):
-            self.assertEqual(group[0], 'YY-54')
+            self.assertEqual(group, 'TS-43')
 
     def test_get_group_id_by_name(self):
         """Test get_group_id_by_name"""
-        self.assertEqual(get_group_id_by_name('CA-76'), 1)
+        self.assertEqual(get_group_id_by_name('AX-80'), 3)
 
 
 if __name__ == '__main__':

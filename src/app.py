@@ -1,8 +1,8 @@
 from flask import render_template, request
 from api_1_0 import API_VERSION_V1, api_bp, api_v1
-from api_1_0.resources.course import Courses
-from api_1_0.resources.group import Groups
-from api_1_0.resources.student import Students
+from api_1_0.resources.course import Courses, CoursesList
+from api_1_0.resources.group import Groups, GroupsList
+from api_1_0.resources.student import Students, StudentsList
 from config import config, Config
 from db.models import db, Student
 from queries.queries_courses import get_course_info, get_courses, get_courses_name
@@ -22,9 +22,12 @@ ver = API_VERSION_V1
 def create_app(config_name):
     app.config.from_object(config[config_name])
     app.register_blueprint(api_bp, url_prefix=f'{conf}/v{ver}')
-    api_v1.add_resource(Students, "/student", "/student/", "/student/<int:student_id>")
-    api_v1.add_resource(Groups, "/group", "/group/", "/group/<int:group_id>")
-    api_v1.add_resource(Courses, "/course", "/course/", "/course/<int:course_id>")
+    api_v1.add_resource(Students, "/student", "/student/<int:student_id>")
+    api_v1.add_resource(StudentsList, "/students", "/students/")
+    api_v1.add_resource(Groups, "/group", "/group/<int:group_id>")
+    api_v1.add_resource(GroupsList, "/groups", "/groups/")
+    api_v1.add_resource(Courses, "/course", "/course/<int:course_id>")
+    api_v1.add_resource(CoursesList, "/courses", "/courses/")
 
     @app.route('/')
     def index():

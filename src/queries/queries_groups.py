@@ -32,6 +32,7 @@ def get_group_id_list():
             groups_id.append(i[0])
         return groups_id
 
+
 def get_group_name_list():
     with session_scope() as s:
         groups_name = []
@@ -40,6 +41,7 @@ def get_group_name_list():
         for i in result:
             groups_name.append(i[0])
         return groups_name
+
 
 def get_group_inf(group_name):
     with session_scope() as s:

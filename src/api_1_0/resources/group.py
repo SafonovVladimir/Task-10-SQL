@@ -1,6 +1,7 @@
 from flask_restful import abort, Resource, reqparse
 from db.models import db, Group
-from queries.queries_groups import get_group_id_list, get_group, get_groups_name, del_group_by_id, update_group
+from queries.queries_groups import get_group_id_list, get_group, get_groups_name, del_group_by_id, update_group, \
+    get_group_name_list
 
 parser = reqparse.RequestParser()
 parser.add_argument("name")
@@ -40,3 +41,15 @@ class Groups(Resource):
         params = parser.parse_args()
         update_group(group_id, params["name"])
         return '', 204
+
+
+class GroupsList(Resource):
+
+    def get(self):
+        output = {}
+        data = get_group_name_list()
+        count = 1
+        for i in data:
+            output[count] = {'group name': i}
+            count += 1
+        return output, 200

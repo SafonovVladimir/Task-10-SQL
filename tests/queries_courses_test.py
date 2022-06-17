@@ -10,7 +10,7 @@ class TestCollection(TestCase):
         """Test get_course_info"""
         courses = get_course_info('Chemistry')
         for course in islice(courses, 1, 2):
-            self.assertEqual(course, (39, 'Gavrilyuk Artem', 'YY-54'))
+            self.assertEqual(course, (199, 'Bondarenko Nikyta', 'QT-91'))
 
 
     def test_get_courses(self):
