@@ -1,4 +1,6 @@
-from src.app import app
+from src.app import create_app
 
-if __name__ == "__main__":
+app = create_app(config_name='production')
+
+if __name__ == '__main__':
     app.run()
