@@ -1,9 +1,8 @@
 from src.db.models import Student, Course, Group, StudentsCourses
 from src.queries.queries_config import session_scope
 from sqlalchemy import select, delete
-
-from queries.queries_courses import get_course_id_by_name
-from queries.queries_groups import get_group_id_by_name
+from src.queries.queries_courses import get_course_id_by_name
+from src.queries.queries_groups import get_group_id_by_name
 
 
 def get_students_subjects_list():
