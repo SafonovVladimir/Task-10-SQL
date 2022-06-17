@@ -10,7 +10,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'my-key'
-    SQLALCHEMY_DATABASE_URI = 'postgres://yaxqouiimjpmtm:6617a1c5caa35b46e75a6172a44c51cad90d9d77b89f777e196194a13cc4' \
+    SQLALCHEMY_DATABASE_URI = 'postgresql://yaxqouiimjpmtm:6617a1c5caa35b46e75a6172a44c51cad90d9d77b89f777e196194a13cc4' \
                               '52e5@ec2-52-48-159-67.eu-west-1.compute.amazonaws.com:5432/d6hf47p3m72qto'
     # SQLALCHEMY_DATABASE_URI = 'postgresql://admin:admin@localhost/uni'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
