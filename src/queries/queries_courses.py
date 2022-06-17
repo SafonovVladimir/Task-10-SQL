@@ -1,5 +1,5 @@
-from db.models import Course
-from queries.queries_config import session_scope
+from src.db.models import Course
+from src.queries.queries_config import session_scope
 from sqlalchemy import select, delete
 
 

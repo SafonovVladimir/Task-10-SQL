@@ -1,4 +1,4 @@
-from db.randomly_data import *
+from src.db.randomly_data import *
 from src.db.models import *
 
 # create database and the db tables

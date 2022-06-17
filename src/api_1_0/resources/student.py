@@ -1,7 +1,7 @@
 from flask_restful import abort, Resource, reqparse
-from db.models import Student, db
-from queries.queries_groups import get_group_id_by_name
-from queries.queries_students import get_student, del_student_by_id, update_student, get_student_id_list, \
+from src.db.models import Student, db
+from src.queries.queries_groups import get_group_id_by_name
+from src.queries.queries_students import get_student, del_student_by_id, update_student, get_student_id_list, \
     get_all_students_with_group_name
 
 parser = reqparse.RequestParser()

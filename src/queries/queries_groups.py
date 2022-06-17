@@ -1,5 +1,5 @@
-from db.models import Group, Student
-from queries.queries_config import session_scope
+from src.db.models import Group, Student
+from src.queries.queries_config import session_scope
 from sqlalchemy import select, delete
 
 

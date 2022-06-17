@@ -1,5 +1,5 @@
-from db.models import Student, Course, Group, StudentsCourses
-from queries.queries_config import session_scope
+from src.db.models import Student, Course, Group, StudentsCourses
+from src.queries.queries_config import session_scope
 from sqlalchemy import select, delete
 
 from queries.queries_courses import get_course_id_by_name

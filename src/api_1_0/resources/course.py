@@ -1,6 +1,6 @@
 from flask_restful import abort, Resource, reqparse
-from db.models import db, Course
-from queries.queries_courses import get_course_id_list, get_course, get_courses_name, del_course_by_id, update_course, \
+from src.db.models import db, Course
+from src.queries.queries_courses import get_course_id_list, get_course, get_courses_name, del_course_by_id, update_course, \
     get_courses
 
 parser = reqparse.RequestParser()

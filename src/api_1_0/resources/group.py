@@ -1,6 +1,6 @@
 from flask_restful import abort, Resource, reqparse
-from db.models import db, Group
-from queries.queries_groups import get_group_id_list, get_group, get_groups_name, del_group_by_id, update_group, \
+from src.db.models import db, Group
+from src.queries.queries_groups import get_group_id_list, get_group, get_groups_name, del_group_by_id, update_group, \
     get_group_name_list
 
 parser = reqparse.RequestParser()

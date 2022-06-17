@@ -1,14 +1,14 @@
 from flask import render_template, request
-from api_1_0 import API_VERSION_V1, api_bp, api_v1
-from api_1_0.resources.course import Courses, CoursesList
-from api_1_0.resources.group import Groups, GroupsList
-from api_1_0.resources.student import Students, StudentsList
-from config import config, Config
-from db.models import db, Student
-from queries.queries_courses import get_course_info, get_courses, get_courses_name
-from queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count, \
+from src.api_1_0 import API_VERSION_V1, api_bp, api_v1
+from src.api_1_0.resources.course import Courses, CoursesList
+from src.api_1_0.resources.group import Groups, GroupsList
+from src.api_1_0.resources.student import Students, StudentsList
+from src.config import config, Config
+from src.db.models import db, Student
+from src.queries.queries_courses import get_course_info, get_courses, get_courses_name
+from src.queries.queries_groups import get_group_inf, get_groups_name, get_groups_with_student_count, \
     get_group_name_list, get_group_id_by_name
-from queries.queries_students import get_student_courses, get_all_students_with_group_name, add_course_to_student, \
+from src.queries.queries_students import get_student_courses, get_all_students_with_group_name, add_course_to_student, \
     del_course_from_student
 
 app = Config.app
